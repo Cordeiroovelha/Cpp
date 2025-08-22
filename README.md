@@ -1,2 +1,2 @@
 # CPP
-codigos em c++ \\ autor: Murilo Juttel Cordeiro
+codigos em c++ ||| autor: Murilo Juttel Cordeiro
