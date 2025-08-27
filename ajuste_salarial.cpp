@@ -21,16 +21,13 @@ int main(void){
 	
 	//procedimento dos dados
 	
-	if (salario < 500){
+	if (salario < 500)
 		novo = salario * 1.15;
-	}
 	else {
-		if (salario <= 1000){
+		if (salario <= 1000)
 			novo = salario * 1.10;
-		}
-		else{
+		else
 			novo = salario * 1.05;
-		}
 	}
 	
 	//saida de dados
@@ -43,3 +40,4 @@ int main(void){
 	
 	return 0;
 }
+
