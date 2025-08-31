@@ -15,7 +15,7 @@ int main(void){
     cout << "nota da 4a prova --> "; cin >> n4;
     cin.ignore(80, '\n');
 
-    if (double r = (n1 + n2 + n3 + n4) / 4; r > 5)
+    if (double r = (n1 + n2 + n3 + n4) / 4.0; r > 5)
         cout << "Aprovado, media --> " << r;
     else
         cout << "Reprovado, media --> " << r;
@@ -25,3 +25,4 @@ int main(void){
     cin.get();
     return 0;
 }
+
