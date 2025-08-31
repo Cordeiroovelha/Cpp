@@ -1,4 +1,4 @@
-// maiorquesem.cpp
+// maiorquecem.cpp
 
 #include <iostream>
 using namespace std;
@@ -24,3 +24,4 @@ int main(void){
     cout << "aperte <enter> para continuar";
     cin.get();
 }
+
