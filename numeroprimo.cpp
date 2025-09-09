@@ -29,17 +29,19 @@ int main(void) {
                 primo = false;
             divisor++;
         }
-
+		
+		cout << endl;
+		
         if (primo == true)
             cout << n << " e primo" << endl;
         else
             cout << n << " nao e primo" << endl;
 
-        cout << endl << endl << endl;
+        cout << endl << endl;
         cout << "Deseja verificar outro numero [s/n]? ";
         cin.get(resp);
         cin.ignore();
-        cout << endl << endl << endl;
+        cout << endl << endl;
 
     }
 
