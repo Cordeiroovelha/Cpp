@@ -11,7 +11,7 @@ int main(void) {
     char resp {'S'};
 
     while (std::toupper(resp) == 'S') {        
-        int32_t n;
+        int32_t n, div;
         bool primo {false};
         int32_t divisor {2};
 
@@ -27,21 +27,25 @@ int main(void) {
 
             if (n % divisor == 0 and divisor != n) 
                 primo = false;
+            else
+                div += 1;
+            
+            if (div >= 2)
+                break;
+
             divisor++;
         }
-		
-		cout << endl;
-		
+
         if (primo == true)
             cout << n << " e primo" << endl;
         else
             cout << n << " nao e primo" << endl;
 
-        cout << endl << endl;
+        cout << endl << endl << endl;
         cout << "Deseja verificar outro numero [s/n]? ";
         cin.get(resp);
         cin.ignore();
-        cout << endl << endl;
+        cout << endl << endl << endl;
 
     }
 
