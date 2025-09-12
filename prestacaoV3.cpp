@@ -22,21 +22,67 @@ int main(void){
     while (std::toupper(resp) == 'S'){
 
         cout << "**********************" << endl;
-        cout << "* PRESTACAO ATRASADA *" << endl;
+        cout << "* PRESTACAO ATRASADA *" << endl; // titulo
         cout << "**********************" << endl;
         cout << endl << endl;
 
-        cout << "Informe o valor inicial do produto (R$).......: "; cin >> valor;
+        // entrada de dados com validaçao
+      
+        while (true) {
+            cout << "Informe o valor inicial do produto (R$).......: ";
+            if (cin >> valor)
+                break;
+            else{
+                cout << "Erro: entre apenas valor numerico com dois decimais." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
         cin.ignore(80, '\n');
-        cout << "Informe o valor da taxa (%) ..................: "; cin >> taxa;
+        
+        while (true) {
+            cout << "Informe o valor da taxa (%) ..................: ";
+            if (cin >> taxa)
+                break;
+            else{
+                cout << "Erro: entre apenas valor numerico." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
         cin.ignore(80, '\n');
-        cout << "Informe o tempo que esta atrasado (meses).....: "; cin >> tempo;
+
+        while (true) {
+            cout << "Informe o valor da taxa (%) ..................: ";
+            if (cin >> taxa)
+                break;
+            else{
+                cout << "Erro: entre apenas valor numerico." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
         cin.ignore(80, '\n');
+
+        while (true) {
+            cout << "Informe o tempo que esta atrasado (meses).....: ";
+            if (cin >> tempo)
+                break;
+            else{
+                cout << "Erro: entre apenas valor numerico." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+        }
+        cin.ignore(80, '\n');
+
         cout << "Taxa simples [1] ou composta [2] .............: "; cin >> tipo;
         cin.ignore(80, '\n');
     
-        taxa /= 100;
+        taxa /= 100; // converte a taxa para porcentagem
 
+        // apresentaçao dos resultados
+        
         cout << endl << endl;
         cout << "**************" << endl;
         cout << "* RESULTADOS *" << endl;
@@ -45,6 +91,8 @@ int main(void){
         cout << "Valor inicial (R$)............................: " << setw(7) << valor << endl;
         cout << "Valor da taxa (%).............................: " << setw(7) << taxa * 100 << endl;
         cout << "Tempo de atraso (meses).......................: " << setw(4) << tempo << ".00"<< endl;
+
+        // taxa simples ou composta e suas formulas
 
         if (tipo == 1){
             prestacao = valor + (1 + taxa * tempo);
