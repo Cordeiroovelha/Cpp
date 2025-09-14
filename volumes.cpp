@@ -10,16 +10,22 @@ using namespace std;
 float r;
 const float pi = 3.14;
 
+// rotina pausa e recomeço
+
 void pausa(void) {
     cout << endl;
     cout << "Aperte <enter> para continuar";
     cin.get();
 }
 
+// rotina de saida de resultado
+
 void saida(void) {
-    cout << "o volume do objeto --> " << setw(12) << r << endl;
+    cout << "o volume do objeto --> " << setw(12) << r << endl; // setw(12) é um valor ideal para esse tipo de calculo
     pausa();
 }
+
+// rotina de calculo de cilindro
 
 void rotcilindro(void) {
     float raio, altura;
@@ -32,6 +38,8 @@ void rotcilindro(void) {
     r = pi * pow(raio,2) * altura;
     saida();
 }
+
+// rotina de calculo de retangulo
 
 void rotretangulo(void) {
     float altura, comprimento, largura;
@@ -47,6 +55,8 @@ void rotretangulo(void) {
     saida();
 }
 
+// rotina de calculo de esfera
+
 void rotesfera(void) {
     float raio;
 
@@ -61,6 +71,8 @@ int main(void) {
     uint16_t opcao = 0;
     cout << setprecision(2) << fixed << right;
     
+    // looping principal
+
     while (opcao != 4) {
         cout << "----------------------" << endl;
         cout << "calculadora de volumes" << endl;
@@ -73,6 +85,8 @@ int main(void) {
         cout << "[3] - esfera" << endl;
         cout << "[4] - encerrar programa" << endl;
 
+        // confirmaçao de entrada numerica
+
         while (true){
             cout << "\nEscolha uma opcao: ";
             if (cin >> opcao)
@@ -83,6 +97,8 @@ int main(void) {
                 cin.ignore(1000, '\n');
             }
         }
+
+        // efetuamento das subrotinas e confirmaçao de opçao valida
 
         if (opcao != 4) {
             switch (opcao) {
@@ -95,6 +111,9 @@ int main(void) {
             }
         }
     }
+
+    // fim do programa
+
     cout << endl;
     cout << "Aperte <enter> para encerrar";
     cin.get();
