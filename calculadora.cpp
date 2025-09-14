@@ -12,7 +12,7 @@ float r, a, b;
 
 // rotina de pausa e recomeço do looping principal
 
-void pausa(void){
+void pausa(void) {
     cout << endl << endl;
     cout << "aperte <enter> para continuar";
     cin.get();
@@ -21,7 +21,7 @@ void pausa(void){
 
 // rotina de entrada de dados
 
-void entrada(void){7
+void entrada(void) {
 
     // confirmação de entrada numerica
 
@@ -169,3 +169,4 @@ int main(void) {
     cin.get();
     return 0;
 }
+
