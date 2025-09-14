@@ -10,6 +10,8 @@ using namespace std;
 
 float r, a, b;
 
+// rotina de pausa e recomeço do looping principal
+
 void pausa(void){
     cout << endl << endl;
     cout << "aperte <enter> para continuar";
@@ -17,7 +19,12 @@ void pausa(void){
     cout << endl;
 }
 
-void entrada(void){
+// rotina de entrada de dados
+
+void entrada(void){7
+
+    // confirmação de entrada numerica
+
     while (true) {
             cout << "escolha um numero <A>: ";
             if (cin >> a)
@@ -43,10 +50,14 @@ void entrada(void){
         cin.ignore(80, '\n');
 }
 
+// rotina de saida de dados
+
 void saida(void) {
     cout << "Resuldado -----------> " << setw(4) << r;
     pausa();
 }
+
+// rotina de efetuamento de calculos
 
 float calculo(float a, float b, char operador) {
     switch (operador){
@@ -58,6 +69,8 @@ float calculo(float a, float b, char operador) {
     }
 }
 
+// rotina de soma
+
 void rotadd(void) {
     cout << endl;
     cout << "Operacao de adicao" << endl;
@@ -65,6 +78,8 @@ void rotadd(void) {
     r = calculo(a, b, '+');
     saida();
 }
+
+// rotina de subtraçao
 
 void rotsub(void) {
     cout << endl;
@@ -74,6 +89,8 @@ void rotsub(void) {
     saida();
 }
 
+// rotina de multiplicação
+
 void rotmult(void) {
     cout << endl;
     cout << "Operacao de multiplicacao" << endl;
@@ -82,12 +99,14 @@ void rotmult(void) {
     saida();
 }
 
+// rotina de divisão
+
 void rotdiv(void) {
     cout << endl;
     cout << "Operacao de divisao" << endl;
     entrada();
-    if (b == 0) {
-        cout << "operacao invalida (b = 0)" << endl;
+    if (b == 0) {  // confirmação de divisão possivel
+        cout << "operacao invalida tente novamente" << endl;
         pausa();
     }
     else {
@@ -100,6 +119,8 @@ int main(void) {
     uint16_t opcao{0};
     cout << setprecision(2) << fixed << right;
     
+    // looping principal
+
     while (opcao != 5) {
 
         cout << "***************" << endl;
@@ -126,6 +147,8 @@ int main(void) {
         } 
         cin.ignore(80, '\n');
 
+        // chamada das subrotinas
+
         if (opcao != 5) {
             switch (opcao) {
                 case 1: rotadd();    break;
@@ -138,6 +161,9 @@ int main(void) {
             }
         }
     }
+
+    // fim do programa
+
     cout << endl;
     cout << "Aperte <enter> para encerrar";
     cin.get();
