@@ -5,7 +5,6 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
-#include <cctype>
 using namespace std;
 
 float r, a, b;
@@ -61,11 +60,13 @@ void saida(void) {
 
 float calculo(float a, float b, char operador) {
     switch (operador){
-        case '+': return a+b;
-        case '-': return a-b;
-        case '*': return a*b;
-        case '/': return a/b;
-        default:  return 0.0;
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+        case '^': return pow(a,b);
+        case 'r': return pow(a, 1.00 / b);
+        default : return 0.0;
     }
 }
 
@@ -115,17 +116,49 @@ void rotdiv(void) {
     }
 }
 
+// rotina de potenciação
+
+void rotpotencia(void) {
+    float base, potencia;
+
+    cout << endl;
+    cout << "Operacao de potenciacao" << endl << endl;
+    cout << "Entre o valor da base: "; cin >> base;
+    cin.ignore(80, '\n');
+    cout << "Entre o valor do expoenente: "; cin >> potencia;
+    cin.ignore(80, '\n');
+    r = calculo(base, potencia, '^');
+    saida();
+
+}
+
+// rotina de radiciação
+
+void rotraiz(void) {
+    float base, potencia;
+
+    cout << endl;
+    cout << "Operacao de radiciacao\n" << endl;
+    cout << "Entre o valor da base: "; cin >> base;
+    cin.ignore(80, '\n');
+    cout << "Entre o valor do indice: "; cin >> potencia;
+    cin.ignore(80, '\n');
+    r = calculo(base, potencia, 'r'); // r == raiz
+    saida();
+}
+
+
 int main(void) {
     uint16_t opcao{0};
     cout << setprecision(2) << fixed << right;
     
     // looping principal
 
-    while (opcao != 5) {
+    while (opcao != 7) {
 
-        cout << "***************" << endl;
-        cout << "* CALCULADORA *" << endl;
-        cout << "***************" << endl;
+        cout << "-------------" << endl;
+        cout << " CALCULADORA " << endl;
+        cout << "-------------" << endl;
         cout << "\n" << endl;
 
         cout << "qual sera a operacao?" << endl;
@@ -133,7 +166,9 @@ int main(void) {
         cout << "[2] - Subtracao" << endl;
         cout << "[3] - Multiplicacao" << endl;
         cout << "[4] - Divisao" << endl;
-        cout << "[5] - Sair do programa" << endl;
+        cout << "[5] - potenciacao" << endl;
+        cout << "[6] - radiciacao" << endl;
+        cout << "[7] - Sair do programa" << endl;
 
         while (true) {
             cout << "escolha uma opcao: ";
@@ -149,14 +184,16 @@ int main(void) {
 
         // chamada das subrotinas
 
-        if (opcao != 5) {
+        if (opcao != 7) {
             switch (opcao) {
-                case 1: rotadd();    break;
-                case 2: rotsub();    break;
-                case 3: rotmult();   break;
-                case 4: rotdiv();    break;
+                case 1: rotadd();       break;
+                case 2: rotsub();       break;
+                case 3: rotmult();      break;
+                case 4: rotdiv();       break;
+                case 5: rotpotencia();  break;
+                case 6: rotraiz();      break;
                 default: 
-                    cout << "opcao invalida";
+                    cout << "opcao invalida"; // verificaçao de opçao valida
                     pausa();     break;
             }
         }
@@ -169,4 +206,3 @@ int main(void) {
     cin.get();
     return 0;
 }
-
