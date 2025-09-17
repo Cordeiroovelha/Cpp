@@ -6,11 +6,26 @@
 #include <iomanip>
 #include <cmath>
 #include <cctype>
+#include <windows.h>
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::setw;
+
+void clear(void)
+{
+  HANDLE tela;
+  CONSOLE_SCREEN_BUFFER_INFO info;
+  DWORD escrita = 0;
+  tela = GetStdHandle(STD_OUTPUT_HANDLE);
+  GetConsoleScreenBufferInfo(tela, &info);
+  COORD pos = {0, 0};
+  DWORD celulas = info.dwSize.X * info.dwSize.Y;
+  FillConsoleOutputCharacter(tela, ' ', celulas, pos,
+    &escrita);
+  SetConsoleCursorPosition(tela, pos);
+}
 
 int main(void){
 
@@ -27,25 +42,13 @@ int main(void){
         cout << endl << endl;
 
         // entrada de dados com validaçao
-      
+
         while (true) {
             cout << "Informe o valor inicial do produto (R$).......: ";
             if (cin >> valor)
                 break;
             else{
                 cout << "Erro: entre apenas valor numerico com dois decimais." << endl;
-                cin.clear();
-                cin.ignore(10000, '\n');
-            }
-        }
-        cin.ignore(80, '\n');
-        
-        while (true) {
-            cout << "Informe o valor da taxa (%) ..................: ";
-            if (cin >> taxa)
-                break;
-            else{
-                cout << "Erro: entre apenas valor numerico." << endl;
                 cin.clear();
                 cin.ignore(10000, '\n');
             }
@@ -78,11 +81,11 @@ int main(void){
 
         cout << "Taxa simples [1] ou composta [2] .............: "; cin >> tipo;
         cin.ignore(80, '\n');
-    
+
         taxa /= 100; // converte a taxa para porcentagem
 
         // apresentaçao dos resultados
-        
+
         cout << endl << endl;
         cout << "**************" << endl;
         cout << "* RESULTADOS *" << endl;
@@ -102,7 +105,7 @@ int main(void){
             prestacao = valor * pow(1 + taxa, tempo);
             cout << "Tipo de juros: Composto" << endl;
         }
-    
+
         double juros = prestacao - valor;
 
         cout << "Valor inicial (R$)............................: " << setw(7) << valor << endl;
@@ -113,8 +116,7 @@ int main(void){
         cout << "Deseja continuar? (S/N): ";
         cin.get(resp);
         cin.ignore();
-
-		cout << "\n" << "\n" << endl;
+        clear();
     }
 
     cout << endl;
@@ -122,3 +124,4 @@ int main(void){
     cin.get();
     return 0;
 }
+
