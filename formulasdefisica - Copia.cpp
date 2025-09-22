@@ -9,6 +9,20 @@ using namespace std;
 
 float r;
 
+void clear(void)
+{
+  HANDLE tela;
+  CONSOLE_SCREEN_BUFFER_INFO info;
+  DWORD escrita = 0;
+  tela = GetStdHandle(STD_OUTPUT_HANDLE);
+  GetConsoleScreenBufferInfo(tela, &info);
+  COORD pos = {0, 0};
+  DWORD celulas = info.dwSize.X * info.dwSize.Y;
+  FillConsoleOutputCharacter(tela, ' ', celulas, pos,
+    &escrita);
+  SetConsoleCursorPosition(tela, pos);
+}
+
 void pausa(void) {
     cout << endl << endl;
     cout << "aperte <enter> para continuar";
@@ -153,3 +167,4 @@ int main(void) {
     cin.get();
     return 0;
 }
+
