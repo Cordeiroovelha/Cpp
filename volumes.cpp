@@ -10,6 +10,19 @@ using namespace std;
 float r;
 const float pi = 3.14;
 
+void clear(void) {
+    HANDLE tela;
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    DWORD escrita = 0;
+    tela = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(tela, &info);
+    COORD pos = {0, 0};
+    DWORD celulas = info.dwSize.X * info.dwSize.Y;
+    FillConsoleOutputCharacter(tela, ' ', celulas, pos,
+    &escrita);
+    SetConsoleCursorPosition(tela, pos);
+}
+
 // rotina pausa e recomeço
 
 void pausa(void) {
@@ -119,3 +132,4 @@ int main(void) {
     cin.get();
     return 0;
 }
+
