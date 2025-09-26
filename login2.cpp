@@ -5,11 +5,35 @@
 #include <iostream>
 using namespace std;
 
-bool validacao_nome, validacao_idade, validacao_email;
+int16_t validacao = 0;
 
-bool validar_nome(string nome, bool &validacao_nome) {
-    if (nome.lenght <= 5 or nome.length >= 25)
-        return validacao_email = false;
-    if 
-    return validacao_nome = true;
+float validar_nome(string nome, int16_t validacao) {
+    if (nome.length() >= 5 or nome.length() <= 25)
+        return validacao += 1;
+    else
+        return 0;
+}
+
+int main(void) {
+    int32_t idade;
+    string nome, email;
+    uint8_t resposta = 1;
+
+    while (resposta == 1) {
+        while (true) {
+            cout << "Nome: ";
+            if (cin >> nome)
+                break;
+            else {
+                cout << "Nome escrito de maneira errada" << endl;
+                cin.ignore(80, '\n');
+            }
+        }
+        validar_nome(nome, validacao);
+    }
+
+    cout << endl;
+    cout << "Aperte <enter> para encerrar";
+    cin.get();
+    return 0;
 }
