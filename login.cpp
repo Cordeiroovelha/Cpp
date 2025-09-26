@@ -3,6 +3,7 @@
 // autor: Murilo Juttel Cordeiro
 
 #include <iostream>
+#include <string>
 using namespace std;
 
 
@@ -42,10 +43,11 @@ int main(void){
     validacao = false;
 	
     while (validacao == false) {
-        size_t arroba = email.find('@');
+
+        size_t pos = email.find('@');
 
         cout << "email: "; getline(cin, email);
-        if (arroba == string::npos) {
+        if (pos != string::npos and email.length() > 5) {
             validacao = true;
             cin.ignore(80, '\n');
         }
