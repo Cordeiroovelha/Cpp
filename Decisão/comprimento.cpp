@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <ciso646>
+#include <string>
 using namespace std;
 
 int main(void){
@@ -27,3 +28,4 @@ int main(void){
     cin.get();
     return 0;
 }
+
