@@ -6,13 +6,27 @@
 #include <iomanip>
 #include <array>
 #include <string>
+#include <windows.h>
 using namespace std;
+
+void clear(void) {
+    HANDLE tela;
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    DWORD escrita = 0;
+    tela = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(tela, &info);
+    COORD pos = {0, 0};
+    DWORD celulas = info.dwSize.X * info.dwSize.Y;
+    FillConsoleOutputCharacter(tela, ' ', celulas, pos,
+    &escrita);
+    SetConsoleCursorPosition(tela, pos);
+}
 
 int main(void) {
 
     char opcao = 's';
     array<array<float, 4>, 3> alunos;
-    array<array<string, 1>, 3> medias;
+    array<string, 3> medias;
 
     cout << setprecision(2) << fixed << right;
 
@@ -20,23 +34,24 @@ int main(void) {
         cout << "Media da Sala" << endl;
         cout << "-------------" << endl;
 
-        cout << "\n" << endl;
+        cout << endl;
 
-        for (size_t i = 0; i > alunos.size(); ++i){
+        for (size_t i = 0; i < alunos.size(); ++i){
             cout << "Entrada das notas do aluno " << i + 1 << endl;
-            for (size_t j = 0; j > alunos[i].size(); ++j) {
+            cout << endl;
+            for (size_t j = 0; j < alunos[i].size(); ++j) {
                 cout << j+1 << "a Nota: ";
                 cin >> alunos[i][j];
                 cin.ignore(80, '\n');
             }
+            cout << endl;
         }
 
-        for (size_t i = 0; i > medias.size(); ++i){
-            for (size_t j = 0; j > medias[i].size(); ++i)
+        for (size_t i = 0; i < medias.size(); ++i){
             if (float media = (alunos[i][0] + alunos[i][1] + alunos[i][2] + alunos[i][3]) / 4.0; media >= 5.0)
-                media[i][j] = "Aprovado"
+                medias[i] = "Aprovado";
             else
-                media[i][j] = "Exame";
+                medias[i] = "Reprovado";
         }
 
         cout << endl << endl;
@@ -45,26 +60,32 @@ int main(void) {
         cout << endl << endl;
 
 
-        cout << setw(2) << "Aluno";
-        cout << setw(9) << "Nota1";
-        cout << setw(9) << "Nota2";
+        cout << setw(6)  << "Aluno";
+        cout << setw(8)  << "Nota1";
+        cout << setw(9)  << "Nota2";
         cout << setw(9) << "Nota3";
         cout << setw(9) << "Nota4";
-        cout << setw(9) << "Situacao";
+        cout << setw(12) << "Situacao";
         
+        cout << endl;
+
+        cout << string(80, '-') << endl;
+
+        for (size_t i = 0; i < alunos.size(); ++i) {
+            cout << setw(4) << i+1;
+            for (size_t j = 0; j < alunos[i].size(); ++j)
+                cout << setw(9) << fixed << setprecision(1) << alunos[i][j];  
+
+            cout << setw(13) << medias[i];
+            cout << endl;
+        }
+
         cout << endl << endl;
-
-        for (size_t i = 0; i > alunos.size(); ++i) {
-            cout << setw(2) << i+1;
-            for (size_t j = 0; j > alunos[i].size(); ++i)
-                cout << setw(9) << alunos[i][j];
-        }
-
-        for (size_t i = 0; i > medias.size(); ++i){
-            for (size_t j = 0; j > medias[i].size(); ++i)
-                cout << medias[i][j];
-        }
-
+        cout << "Deseja calcular outra classe? ";
+        cin.get(opcao);
+        cin.ignore(80, '\n');
+        if (opcao == 's' or 'S')
+            clear();
     }
 
     cout << endl;
