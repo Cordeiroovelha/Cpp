@@ -23,7 +23,7 @@ int main(void) {
         for (size_t i = 0; i < A.size(); i++) {
 			cout << endl;
             cout << "linha " << i + 1 << endl;
-            for (size_t j = 0; j < A.size(); j++) {
+            for (size_t j = 0; j < A[i].size(); j++) {
                 cout << "Coluna " << j+1 << " valor: ";
                 cin >> A[i][j];
                 cin.ignore(80, '\n');
@@ -33,7 +33,7 @@ int main(void) {
         for (size_t i = 0; i < B.size(); i++) {
 			cout << endl;
             cout << "linha " << i + 1 << endl;
-            for (size_t j = 0; j < B.size(); j++) {
+            for (size_t j = 0; j < B[i].size(); j++) {
                 cout << "Coluna " << j+1 << " valor: ";
                 cin >> B[i][j];
                 cin.ignore(80, '\n');
