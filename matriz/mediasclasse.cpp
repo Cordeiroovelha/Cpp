@@ -63,8 +63,8 @@ int main(void) {
         cout << setw(6)  << "Aluno";
         cout << setw(8)  << "Nota1";
         cout << setw(9)  << "Nota2";
-        cout << setw(9) << "Nota3";
-        cout << setw(9) << "Nota4";
+        cout << setw(9)  << "Nota3";
+        cout << setw(9)  << "Nota4";
         cout << setw(12) << "Situacao";
         
         cout << endl;
@@ -93,3 +93,4 @@ int main(void) {
     cin.get();
     return 0;
 }
+
