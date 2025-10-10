@@ -15,29 +15,24 @@ int main(void){
     cout << "Pagina de Login" << endl;
     cout << "\n";
     while (validacao == false) {
-        cout << "Nome: "; getline(cin, nome);
-        if (nome.length() >= 5 and nome.length() <= 25){
-            validacao = true;
-            cin.ignore(80, '\n');
-        }
-        else {
+        cout << "Nome: "; cin >> nome;
+        cin.ignore(80, '\n');
+        if (nome.length() >= 5 and nome.length() <= 30)
+            validacao = true;           
+        else 
             cout << "Nome invalido, tente novamente";
-            cin.ignore(100, '\n');
-        }
     }
 	
 	validacao = false;
 	
     while (validacao == false) {
-        cout << "idade: "; cin >> idade;
-        if (idade >= 18 and idade <= 30) {
+        cout << "idade: "; 
+        cin >> idade;
+        cin.ignore(80, '\n');
+        if (idade >= 18 and idade <= 30) 
             validacao = true;
-            cin.ignore(80, '\n');
-        }
-        else {
+        else 
             cout << "Idade invalida tente novamente" << endl;
-            cin.ignore(100, '\n');
-        }
     }
     
     validacao = false;
@@ -46,15 +41,13 @@ int main(void){
 
         size_t pos = email.find('@');
 
-        cout << "email: "; getline(cin, email);
-        if (pos != string::npos and email.length() > 5) {
+        cout << "email: "; 
+        cin >> email;
+        cin.ignore(80, '\n');
+        if (pos != string::npos and email.length() > 5)
             validacao = true;
-            cin.ignore(80, '\n');
-        }
-        else {
-            cout << "Idade invalida tente novamente" << endl;
-            cin.ignore(100, '\n');
-        }
+        else
+            cout << "Email invalida tente novamente" << endl;
     }
 
     cout << "Dados apresentados" << endl;
