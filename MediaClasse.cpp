@@ -11,20 +11,33 @@
 #include <windows.h>
 using namespace std;
 
+#define Black     0 // Preto
+#define Green     2 // Verde
+#define Red       4 // Vermelho
+#define lgray     7 // Cinza Claro
+
 struct CadAluno {
-    string nome;
-    array<float, 4> notas;
+    string Nome;
+    array<float, 4> Notas;
+    float Media;
     string situacao;
-}
+};
 
-bool CompNome(const CadAluno &a, const CadAluno &b) 
+bool CompareNome(const CadAluno &a, const CadAluno &b) 
 {
-  return a.nome < b.nome;
+  return a.Nome < b.Nome;
 }
 
-union SalaSize {
-    uint32_t sala30 = 30;
-    uint32_t sala15 = 15;
+void color(int corFundo, int corTexto) {
+  HANDLE tela;
+  int16_t cor;
+  tela = GetStdHandle(STD_OUTPUT_HANDLE);
+  if (corFundo < 0 or corFundo > 15 or corTexto < 0 or
+    corTexto > 15)
+    cor = 15;
+  else
+    cor = corTexto + corFundo * 16;
+  SetConsoleTextAttribute(tela, cor);
 }
 
 void clear(void) {
@@ -42,8 +55,8 @@ void clear(void) {
 
 int main(void) {
 
-    vector<CadAluno> Alunos(salaSize);
-
+    vector<CadAluno> Alunos(30);
+    float soma_media, soma_nota, media_geral;
     char opcao = 's';
     uint32_t Sala;
 
@@ -55,31 +68,29 @@ int main(void) {
 
         cout << endl << endl;
 
-        cout << "Quantos alunos possue a classe (15 ou 30)? ";
+        cout << "Quantos alunos possue a classe? ";
         cin >> Sala;
         cin.ignore(80, '\n');
 
-        if (Sala == 15)
-            Alunos.resize(SalaSize.sala15);
-        else if (Sala == 30)
-            Alunos.resize(SalaSize.sala30);
-        else {
+        if (Sala < 1 or Sala > 100) {
             cout << "Valor invalido, sera usado o padrao 30 alunos" << endl;
             cout << endl;
-            Alunos.resize(sala30);
+            Sala = 30;
         }
+        Alunos.resize(Sala);
         cout << endl;
 
-        for (size_t i = 0; i < Alunos.size(); ++i){
+        for (size_t i = 0; i < Alunos.size(); ++i) {
             cout << "Nome do aluno: ";
             getline(cin, Alunos[i].Nome);
             cout << "Entrada das notas do aluno " << Alunos[i].Nome << endl;
             cout << endl;
-            for (size_t j = 0; j < Alunos[i].size(); j++) {
-                if (j < 4){
-                    cout << "Prova " << j+1 << " : ";
-                    cin >> Alunos[i].Notas[j];
-                    cin.ignore(80, '\n');
+            for (size_t j = 0; j < Alunos[i].Notas.size(); j++) {
+                if (j < 3) {
+                    cout << "Prova " << j+1 << " ...: ";
+                    string entranota;         // fazer a entrada como uma string e depois uma converção para float
+                    getline(cin, entranota);  // isso possibilita a criação de operaçoes matematicas
+                    Alunos[i].Notas[j] = atof(entranota.c_str());
                 }
                 else{
                     cout << "Prova final: ";
@@ -87,59 +98,64 @@ int main(void) {
                     cin.ignore(80, '\n');
                 }
             }
-            cout << endl;
+            cout << endl << endl;
         }
 
-        sort(alunos.begin(), alunos.end(), cmpNome)
-
-
-        // entrada de dados
-        for (size_t i = 0; i < alunos.size(); ++i){
-            cout << "Entrada das notas do aluno " << i + 1 << endl;
-            cout << endl;
-            for (size_t j = 0; j < alunos[i].size(); ++j) {
-                cout << j+1 << "a Nota: ";
-                cin >> alunos[i][j];
-                cin.ignore(80, '\n');
-            }
-            cout << endl;
-        }
-
-        for (size_t i = 0; i < medias.size(); ++i){
-            if (float media = (alunos[i][0] + alunos[i][1] + alunos[i][2] + alunos[i][3]) / 4.0; media >= 5.0)
-                medias[i] = "Aprovado";
+        soma_media = 0;
+        for(size_t i = 0; i <= Alunos.size(); ++i){
+            soma_nota = 0;
+            for(size_t j = 0; j <= 3; ++j) // 3 == Numero de notas (0 a 3)
+                soma_nota += Alunos[i].Notas[j]; // looping de soma das notas
+            Alunos[i].Media = soma_nota / 4.0;
+            soma_media += Alunos[i].Media;
+            if (Alunos[i].Media >= 5.0)
+                Alunos[i].situacao = " Aprovado";
             else
-                medias[i] = "Reprovado";
+                Alunos[i].situacao = "Reprovado";
         }
+        media_geral = soma_media / Alunos.size();
+
+        sort(Alunos.begin(), Alunos.end(), CompareNome);
 
         cout << endl << endl;
-        cout << "Apresentacao dos resultados" << endl;
-        cout << "---------------------------" << endl;
+        cout << "Relatorio Geral" << endl;
         cout << endl << endl;
 
+        cout << setw(6)  << "No.";
+        cout << setw(8)  << "Nome";
+	    cout << setw(10) << "Nota 1";
+	    cout << setw(9)  << "Nota 2";
+	    cout << setw(9)  << "Nota 3";
+	    cout << setw(9)  << "ProvaF";
+    	cout << setw(8)  << "Media";
+	    cout << setw(12) << "Situacao";
+      
+	    cout << endl;
 
-        cout << setw(6)  << "Aluno";
-        cout << setw(8)  << "Nota1";
-        cout << setw(9)  << "Nota2";
-        cout << setw(9)  << "Nota3";
-        cout << setw(9)  << "Nota4";
-        cout << setw(12) << "Situacao";
-        
-        cout << endl;
+	    cout << string(80, '-') << endl;
 
-        cout << string(80, '-') << endl;
-
-        for (size_t i = 0; i < alunos.size(); ++i) {
+        for (size_t i = 0; i < Alunos.size(); ++i) {
             cout << setw(4) << i+1;
-            for (size_t j = 0; j < alunos[i].size(); ++j)
-                cout << setw(9) << fixed << setprecision(1) << alunos[i][j];  
+            cout << setw(9) << Alunos[i].Nome;
+            for (size_t j = 0; j < Alunos[i].Notas.size(); ++j)
+                cout << setw(9) << fixed << setprecision(1) << Alunos[i].Notas[j];
+            
+            cout << setw(9)  << Alunos[i].Media;
 
-            cout << setw(13) << medias[i];
+            if (Alunos[i].Media >= 5.0)
+                color(0, 2); // Fundo preto e letra verde
+            else
+                color(0, 4); // Fundo preto e letra vermelha
+            cout << setw(13) << Alunos[i].situacao;
             cout << endl;
+            color(0, 7); // Cor padrão
         }
+        cout << string(80, '-') << endl;
+        cout << endl;
+        cout << "Media geral da sala: " << media_geral << endl;
 
         cout << endl << endl;
-        cout << "Deseja calcular outra classe? ";
+        cout << "Deseja calcular outra classe (S/N)? ";
         cin.get(opcao);
         cin.ignore(80, '\n');
         if (opcao == 's' or 'S')
