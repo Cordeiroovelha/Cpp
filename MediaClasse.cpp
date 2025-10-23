@@ -54,15 +54,14 @@ void clear(void) {
 }
 
 int main(void) {
-
     vector<CadAluno> Alunos(30);
-    float soma_media, soma_nota, media_geral;
+    float min, soma_media, soma_nota, media_geral;
     char opcao = 's';
     uint32_t Sala;
 
     cout << setprecision(2) << fixed << right;
 
-    while (opcao != 'n' or 'N') {
+    while (opcao != 'n' or 'N') {		
         cout << "Media da Sala" << endl;
         cout << string(80, '-') << endl;
 
@@ -74,11 +73,22 @@ int main(void) {
 
         if (Sala < 1 or Sala > 100) {
             cout << "Valor invalido, sera usado o padrao 30 alunos" << endl;
-            cout << endl;
             Sala = 30;
         }
         Alunos.resize(Sala);
+        cout << endl << endl;
+		
+		cout << "Qual a media? ";
+        cin >> min;
+        cin.ignore(80, '\n');
+
+        if (min < 0.0 and min > 10.0) {
+            cout << "Valor invalido, sera usado o padrao 5" << endl;
+            min = 5.00;
+        }
+        
         cout << endl;
+        cout << string(80, '-') << endl;
 
         for (size_t i = 0; i < Alunos.size(); ++i) {
             cout << "Nome do aluno: ";
@@ -108,7 +118,7 @@ int main(void) {
                 soma_nota += Alunos[i].Notas[j]; // looping de soma das notas
             Alunos[i].Media = soma_nota / 4.0;
             soma_media += Alunos[i].Media;
-            if (Alunos[i].Media >= 5.0)
+            if (Alunos[i].Media >= min)
                 Alunos[i].situacao = " Aprovado";
             else
                 Alunos[i].situacao = "Reprovado";
@@ -129,7 +139,7 @@ int main(void) {
 	    cout << setw(9)  << "ProvaF";
     	cout << setw(8)  << "Media";
 	    cout << setw(12) << "Situacao";
-      
+        
 	    cout << endl;
 
 	    cout << string(80, '-') << endl;
