@@ -155,7 +155,7 @@ int main(void) {
     cout << setprecision(2) << fixed << right;
     
     char opcao = ' ';
-    
+    float (*operacao)(float, float, char);
 
     do {
         cout << "Calculadora Simples" << endl;
@@ -168,6 +168,27 @@ int main(void) {
         cout << "Potenciacao    (^)" << endl;
         cout << "Radiciacao     (r)" << endl;
         cout << "Sair           (n)" << endl;
+        cout << "Opcao: ";
+        cin >> opcao;
+        cin.ignore(80, '\n');
+        cout << endl;
 
+        switch (opcao) {
+            case '+' : rotadd(); break;
+            case '-' : rotsub(); break;
+            case '*' : rotmult(); break;
+            case '/' : rotdiv(); break;
+            case '^' : rotpotencia(); break;
+            case 'r' : rotraiz(); break;
+            case 'n' : cout << "Saindo da calculadora..." << endl; break;
+            case 'N' : cout << "Saindo da calculadora..." << endl; break;
+            default  : erro(1); break;
+        }
     }while(opcao != 'n' and opcao != 'N');
+
+
+    cout << endl;
+    cout << "apertar <enter> para sair...";
+    cin.get();
+    return 0;
 }
