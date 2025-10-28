@@ -9,6 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include <windows.h>
+#include <cstdint>
 using namespace std;
 
 #define Black     0 // Preto
