@@ -21,6 +21,6 @@ class Cliente {
         void Saida(void){
             for (size_t i = 0; i <= menu.size; i++)
         }
-
+    
         ~Cliente() {}
 };
