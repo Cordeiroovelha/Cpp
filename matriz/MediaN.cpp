@@ -7,6 +7,7 @@
 #include <string>
 #include <iomanip>
 #include <algorithm>
+#include <windows.h>
 using namespace std;
 
 struct Media{
@@ -18,11 +19,24 @@ struct Media{
     float DesvioPadrao;
 };
 
+void clear(void) {
+    HANDLE tela;
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    DWORD escrita = 0;
+    tela = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(tela, &info);
+    COORD pos = {0, 0};
+    DWORD celulas = info.dwSize.X * info.dwSize.Y;
+    FillConsoleOutputCharacter(tela, ' ', celulas, pos,
+    &escrita);
+    SetConsoleCursorPosition(tela, pos);
+}
+
 void Pausa(void){
     cout << "Aperte <enter> para continuar";
     cin.get();
     cin.ignore(80, '\n');
-    cout << endl;
+    clear();
 }
 
 void MediaSimples(size_t indice, vector<float>& array){
@@ -48,13 +62,11 @@ void MediaComposta(size_t indice, vector<float>& array) {
         cin >> freq;
         cin.ignore(80, '\n');
         
-        // Para media composta, armazenamos valor * frequencia
         array[i] = array[i] * freq;
     }
 }
 
 
-// Subrotina para cálculo da variância amostral
 float VarianciaAmostral(const vector<float>& array, float media) {
     size_t n = array.size();
     
@@ -81,6 +93,11 @@ int main(void){
     cout << setprecision(2) << fixed << right;
 
     do {
+        cout << "=== Calculadora de Media ===" << endl;
+        cout << "Cadeia Simple[1] ou Composta[2]? ";
+        cin >> tipo;
+        cin.ignore(80, '\n');
+        
         cout << "Quantos numeros na cadeia? ";
         cin >> Dados.indice;
         cin.ignore(80, '\n');
@@ -92,10 +109,6 @@ int main(void){
         
         Dados.array.resize(Dados.indice);
         cout << endl;
-
-        cout << "Cadeia Simple[1] ou Composta[2]? ";
-        cin >> tipo;
-        cin.ignore(80, '\n');
 
         if (tipo == 1)
             MediaSimples(Dados.indice, Dados.array);
@@ -141,7 +154,7 @@ int main(void){
         cout << "Deseja continuar? [S/N] ";
         cin.get(resp);
         cin.ignore(80, '\n');
-
+        clear();
     } while(toupper(resp) == 'S');
     
 
