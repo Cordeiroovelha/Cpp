@@ -14,5 +14,7 @@ int main(void) {
             cout << "*";
         cout << endl;
     }
+    cout << "Aperte <enter> para encerrar ...";
+    cin.get();
     return 0;
 }
