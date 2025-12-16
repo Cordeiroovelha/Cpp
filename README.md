@@ -1,5 +1,5 @@
 # CPP
-codigos em c++ ||| autor: Murilo Juttel Cordeiro
+codigos em c++ de teste ||| autor: Murilo Juttel Cordeiro
 
 
 // cd (diretorio) *aperta enter
@@ -9,6 +9,3 @@ codigos em c++ ||| autor: Murilo Juttel Cordeiro
 
 // Exportação
 // g++ -static -static-libgcc -static-libstdc++ programa.cpp -o programa.exe
-
-#fontes
-https://github.com/J-AugustoManzano/ptrtut16
