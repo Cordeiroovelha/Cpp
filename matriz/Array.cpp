@@ -7,6 +7,143 @@
 using namespace std;
 
 template <typename T, size_t Size>
+class ArrayConstIterator {
+public:
+    using iterator_category = std::contiguous_iterator_tag;
+    using value_type = T;
+    using difference_type = std::ptrdiff_t;
+    using pointer = const T*;
+    using const_reference = const T&;
+
+    constexpr ArrayConstIterator() noexcept = default;
+
+    constexpr explicit ArrayConstIterator(pointer ptr, size_t offset = 0) noexcept : m_ptr(ptr), m_offset(offset){
+
+    }
+
+    [[nodiscard]] constexpr const_reference operator*() const noexcept {
+        return m_ptr[m_offset];
+    }
+
+    //Pre
+    constexpr ArrayConstIterator& operator++() noexcept {
+        ++m_offset;
+        return *this;
+    }
+
+    //Pos
+    constexpr ArrayConstIterator& operator++(int) noexcept {
+        ArrayConstIterator temp = *this;
+        ++(*this);
+        return temp;
+    }
+
+    constexpr ArrayConstIterator& operator+=(difference_type offset) noexcept{
+        m_offset += offset;
+        return *this;
+    }
+
+    [[nodiscard]] constexpr auto operator<=>(const ArrayConstIterator &other) const noexcept{
+        return m_offset <=> other.m_offset;
+    }
+
+    [[nodiscard]] constexpr bool operator==(const ArrayConstIterator &other) const noexcept{
+        return *this <=> other == 0;
+    }
+
+    constexpr ArrayConstIterator& operator--() noexcept{
+
+    }
+
+    constexpr ArrayConstIterator operator--(int) noexcept{
+
+    }
+
+    constexpr ArrayConstIterator& operator-=(difference_type offset) noexcept{
+
+    }
+
+    [[nodiscard]] constexpr pointer operator->() const noexcept{
+
+    }
+
+    [[nodiscard]] constexpr bool operator!=(const ArrayConstIterator &other) const noexcept{
+
+    }
+
+    [[nodiscard]] constexpr ArrayConstIterator operator+(difference_type offset) const noexcept{
+
+    }
+
+    [[nodiscard]] constexpr ArrayConstIterator& operator-() noexcept{
+
+    }
+
+    [[nodiscard]] constexpr ArrayConstIterator operator-(difference_type offset) const noexcept{
+
+    }
+
+    [[nodiscard]] constexpr difference_type operator-(const ArrayConstIterator& other) const noexcept{
+
+    }
+
+protected:
+    pointer m_ptr {nullptr};
+    size_t m_offset {0};
+};
+
+template <typename T, size_t Size>
+class ArrayIterator :public ArrayConstIterator<T, Size> {
+public:
+    using MyBase = ArrayConstIterator<T, Size>;
+    using typename MyBase::iterator_category;
+    using typename MyBase::value_type;
+    using typename MyBase::difference_type;
+    using typename MyBase::pointer;
+    using typename MyBase::const_reference;
+    using typename MyBase::reference;
+
+    constexpr ArrayIterator() noexcept = default;
+
+    constexpr explicit ArrayIterator(pointer ptr, size_t offset = 0) noexcept : MyBase(ptr, offset){
+
+    }
+
+    [[nodiscard]] constexpr reference operator*()  const noexcept {
+        return const_cast<reference>(MyBase::operator*());
+    }
+
+    //pre
+    constexpr ArrayIterator& operator++() noexcept {
+        MyBase::operator++();
+        return *this;
+    }
+
+    //pos
+    constexpr ArrayIterator operator++(int) noexcept {
+        auto temp = *this;
+        MyBase::operator++();
+        return temp;
+    }
+
+    constexpr ArrayIterator& operator+=(difference_type offset) noexcept {
+        MyBase::operator+=(offset);
+        return *this;
+    }
+
+    [[nodiscard]] constexpr auto operator<=>(const ArrayIterator& other) const noexcept{
+        return MyBase::operator<=>(other);
+    }
+
+    [[nodiscard]] constexpr bool operator==(const ArrayIterator& other) const noexcept{
+        return MyBase::operator==(other);
+    }
+
+
+
+};
+
+template <typename T, size_t Size>
 class Array
 {
 public:
@@ -15,11 +152,15 @@ public:
     using reference = T&;
     using const_reference = const T&;
     using pointer = T*;
+    using const_iterator = ArrayConstIterator<T, Size>;
+    using iterator = ArrayIterator<T, Size>;
 
     Array() = default;
 
     template <typename... Values>
     constexpr Array(Values... values) {
+        static_assert(sizeof... (Values) <= Size, "Too many initializers");
+        static_assert((std::is_constructible_v<Values, T> && ...), "All values must be T");
         const std::array<T, sizeof...(Values)> temp = {values...};
         std::copy(temp.begin(), temp.end(), m_elements);
     }
@@ -44,6 +185,22 @@ public:
         return m_elements[pos];
     }
 
+    const_iterator begin() const noexcept {
+        return const_iterator(m_elements);
+    }
+
+    const_iterator end() const noexcept {
+        return const_iterator(m_elements, Size);
+    }
+
+    iterator begin()  noexcept {
+        return iterator(m_elements);
+    }
+
+    iterator end()  noexcept {
+        return iterator(m_elements, Size);
+    }
+
 private:
     T m_elements[Size]{};
 };
@@ -60,11 +217,11 @@ constexpr std::expected<typename T::value_type, std::string> max_element(const T
     if (arr.empty())
         return std::unexpected("Array is empty");
 
-    auto greaterElement = arr[0];
+    auto greaterElement = *(arr.begin());
 
-    for (size_t i = 0; i < arr.size(); ++i) {
-        if (arr[i] > greaterElement) {
-            greaterElement = arr[i];
+    for (auto it = std::next(arr.begin()); it != arr.end(); ++it) {
+        if (*it > greaterElement) {
+            greaterElement = *it;
         }
     }
     return greaterElement;
@@ -75,7 +232,7 @@ int main()
     auto r = accumulate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     std::println("Result: {}", r);
 
-    Array <int, 5> ages {10, 20, 30, 40, 50};
+    std::array <int, 5> ages {10, 20, 30, 40, 50};
 
     if (const auto res = max_element(ages); res){
         std::println("Max: {}", res.value());
