@@ -1,8 +1,9 @@
 #include <print>
 #include <array>
+#include <vector>
+#include <string>
 #include <cstddef>
 #include <expected>
-#include <string>
 
 using namespace std;
 
@@ -52,39 +53,48 @@ public:
     }
 
     constexpr ArrayConstIterator& operator--() noexcept{
-
+        --m_offset;
+        return *this;
     }
 
     constexpr ArrayConstIterator operator--(int) noexcept{
-
+        ArrayConstIterator temp = m_offset;
+        --(*this);
+        return temp;
     }
 
     constexpr ArrayConstIterator& operator-=(difference_type offset) noexcept{
-
+        m_offset -= offset;
+        return *this;
     }
 
     [[nodiscard]] constexpr pointer operator->() const noexcept{
-
+        return m_ptr + m_offset;
     }
 
     [[nodiscard]] constexpr bool operator!=(const ArrayConstIterator &other) const noexcept{
-
+        return !(*this == other);
     }
 
     [[nodiscard]] constexpr ArrayConstIterator operator+(difference_type offset) const noexcept{
-
+        auto temp = *this;
+        temp += offset;
+        return temp;
     }
 
     [[nodiscard]] constexpr ArrayConstIterator& operator-() noexcept{
-
+        --m_offset;
+        return *this;
     }
 
     [[nodiscard]] constexpr ArrayConstIterator operator-(difference_type offset) const noexcept{
-
+        auto temp = *this;
+        temp -= offset;
+        return temp;
     }
 
     [[nodiscard]] constexpr difference_type operator-(const ArrayConstIterator& other) const noexcept{
-
+        return m_offset - other.m_offset;
     }
 
 protected:
@@ -139,6 +149,51 @@ public:
         return MyBase::operator==(other);
     }
 
+    // ===EXERCICIO===
+    constexpr ArrayIterator& operator--() noexcept {
+        MyBase::operator--();
+        return *this;
+    }
+
+    constexpr ArrayIterator operator--(int) noexcept{
+        auto temp = *this;
+        MyBase::operator--();
+        return temp;
+    }
+
+    constexpr ArrayIterator& operator-=(difference_type offset) noexcept{
+        MyBase::operator-=(offset);
+        return *this;
+    }
+
+    [[nodiscard]] constexpr pointer operator->() const noexcept{
+        return const_cast<pointer>(MyBase::operator->());
+    }
+
+    [[nodiscard]] constexpr bool operator!=(const ArrayIterator &other) const noexcept{
+        return MyBase::operator!=(other);
+    }
+
+    [[nodiscard]] constexpr ArrayIterator operator+(difference_type offset) const noexcept{
+        auto temp = *this;
+        temp += offset;
+        return temp;
+    }
+
+    [[nodiscard]] constexpr ArrayIterator& operator-() noexcept{
+        MyBase::operator--();
+        return *this;
+    }
+
+    [[nodiscard]] constexpr ArrayIterator operator-(difference_type offset) const noexcept{
+        auto temp = *this;
+        temp -= offset;
+        return temp;
+    }
+
+    [[nodiscard]] constexpr difference_type operator-(const ArrayIterator& other) const noexcept{
+        return MyBase::operator-(other);
+    }
 
 
 };
@@ -147,7 +202,7 @@ template <typename T, size_t Size>
 class Array
 {
 public:
-    using  value_type = T;
+    using value_type = T;
     using size_type = size_t;
     using reference = T&;
     using const_reference = const T&;
@@ -232,7 +287,7 @@ int main()
     auto r = accumulate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     std::println("Result: {}", r);
 
-    std::array <int, 5> ages {10, 20, 30, 40, 50};
+    std::vector <int> ages {10, 20, 30, 40, 50};
 
     if (const auto res = max_element(ages); res){
         std::println("Max: {}", res.value());

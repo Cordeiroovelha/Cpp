@@ -7,7 +7,7 @@
 
 using std::cout;
 
-unsigned long long fibonacci_base(unsigned long long i, unsigned long long x, unsigned long long y){
+uint_fast64_t fibonacci_base(uint_fast64_t i, uint_fast64_t x, uint_fast64_t y){
     if (i == 0)
         return x;
     else if (i == 1) 
@@ -15,7 +15,7 @@ unsigned long long fibonacci_base(unsigned long long i, unsigned long long x, un
     return fibonacci_base(i - 1, y, x + y);
 }
 
-unsigned long long fibonacci(unsigned long long i){
+uint_fast64_t fibonacci(uint_fast64_t i){
     return fibonacci_base(i, 0, 1);
 }
 
@@ -23,7 +23,7 @@ int main(void) {
     cout << "===Fibonacci 1-1000===";
     cout << "\nAperte <enter> para comecar...";
     std::cin.get();
-    for (unsigned long long i = 0; i <= 1000; i++)
+    for (uint_fast64_t i = 0; i <= 1000; i++)
         cout << "f(" << i << ") = " << fibonacci(i) << "\n";
     cout << "Aperte <enter> para encerrar...";
     std::cin.get();
