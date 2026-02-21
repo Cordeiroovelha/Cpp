@@ -1,4 +1,3 @@
-// corrigir!!!
 #include <iostream>
 using namespace std;
 
@@ -11,7 +10,7 @@ void Swap(int* a, int* b){
 int Partition (int arr[], int low, int high){
 	int pivot = arr[high];
 	int i = (low - 1);
-	for(int j = 0; j <= high - 1; j++){
+	for(int j = low; j <= high - 1; j++){
 		if (arr[j] <= pivot){
 			i++;
 			Swap(&arr[i], &arr[j]);
