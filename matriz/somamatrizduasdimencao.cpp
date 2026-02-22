@@ -14,7 +14,7 @@ array<array<float, 3>, 5> C;
 int main(void) {
     char opcao = 's';
     
-    while (opcao != 'n' or 'N') {
+    while (opcao != 'n' || 'N') {
         cout << "Soma de matriz" << endl;
         cout << "--------------" << endl;
 

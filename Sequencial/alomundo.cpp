@@ -1,6 +1,5 @@
 // alomundo.cpp
 
-#include <iostream>
 #include <print>
 using namespace std;
 
