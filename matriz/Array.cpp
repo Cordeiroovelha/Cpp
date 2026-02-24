@@ -1,3 +1,4 @@
+#include <list>
 #include <print>
 #include <array>
 #include <vector>
@@ -6,6 +7,8 @@
 #include <expected>
 
 using namespace std;
+
+namespace cppcore::container{
 
 template <typename T, size_t Size>
 class ArrayConstIterator {
@@ -265,35 +268,45 @@ auto accumulate(Args... args)
 {
     return (args + ...);
 }
+}
 
-template <typename T>
-constexpr std::expected<typename T::value_type, std::string> max_element(const T& arr) noexcept
+
+namespace cppcore::algorithm{
+
+template <typename iT>
+constexpr iT max_element(iT begin, iT end) noexcept
 {
-    if (arr.empty())
-        return std::unexpected("Array is empty");
 
-    auto greaterElement = *(arr.begin());
+    auto greaterElement = begin;
 
-    for (auto it = std::next(arr.begin()); it != arr.end(); ++it) {
-        if (*it > greaterElement) {
-            greaterElement = *it;
+    for (auto it = std::next(begin); it != end; ++it) {
+        if (*it > *greaterElement) {
+            greaterElement = it;
         }
     }
     return greaterElement;
 }
+}
+
+namespace cont = cppcore::container;
+namespace algo = cppcore::algorithm;
 
 int main()
 {
-    auto r = accumulate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-    std::println("Result: {}", r);
-
+    //std::array<float, 5>  ages{12,19,17,99.5,52};
+    //std::list<float>      ages{12,19,17,99.5,52};
+    //cont::Array<float, 5> ages{12,19,17,99.5,52};
     std::vector <int> ages {10, 20, 30, 40, 50};
 
-    if (const auto res = max_element(ages); res){
-        std::println("Max: {}", res.value());
-    } else {
-        std::println("error: {}", res.error());
-    }
+    // numero max aceito utilizando a memoria pilha/stack
+    constexpr auto total = (((1024 * 1003)) / sizeof(float));
+
+    auto r = cont::accumulate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    std::println("Result: {}", r);
+
+    const auto res = algo::max_element(ages.begin(), ages.end() - 2);
+    std::println("Max: {}", *res);
+
 
     return 0;
 }
