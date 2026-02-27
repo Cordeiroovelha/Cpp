@@ -1,5 +1,4 @@
 #include <iostream>
-using namespace std;
 
 struct knot
 {
@@ -8,7 +7,7 @@ struct knot
 };
 
 
-void Insert(knot*& head, int date){
+void InsertInEnd(knot*& head, int date){
 	knot* newKnot = new knot{date, nullptr};
 	if(head == nullptr)
 		head = newKnot;
@@ -19,22 +18,34 @@ void Insert(knot*& head, int date){
 		aux->next = newKnot;
 	}
 }
+// incompleto
+void InsertInStart(knot*& head, int date){
+	knot* newKnot = new knot{date, head};
+	
+	if (head == nullptr){
+		head = newKnot;
+		newKnot->next = head;
+	}else{
+		head = newKnot;
+	}
+}
 
 void ViewArray(const knot* head){
 	const knot* aux = head;
 	while(aux != nullptr){
-		cout << aux->date << "\t";
+		std::cout << aux->date << "\t";
 		aux = aux->next;
 	}
-	cout << endl;
+	std::cout << std::endl;
 }
 
 int main(void){
 	knot* head = nullptr;
 	int newValue;
 	do{
-		cin >> newValue;
-		Insert(head, newValue);
+		std::cin >> newValue;
+		//InsertInEnd(head, newValue);
+		InsertInStart(head, newValue);
 		ViewArray(head);
 	}while(newValue != -1);
 	
