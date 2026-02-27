@@ -18,9 +18,16 @@ void InsertInEnd(knot*& head, int date){
 		aux->next = newKnot;
 	}
 }
-// terminar
+// incompleto
 void InsertInStart(knot*& head, int date){
-	knot* newKnot = new knot{date, nullptr};
+	knot* newKnot = new knot{date, head};
+	
+	if (head == nullptr){
+		head = newKnot;
+		newKnot->next = head;
+	}else{
+		head = newKnot;
+	}
 }
 
 void ViewArray(const knot* head){
