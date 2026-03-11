@@ -7,8 +7,62 @@ using namespace std::chrono;
 template<typename T>
 class Vector {
 public:
+    Vector() = default;
+
+    // O(n)
+    Vector(const Vector &other){
+        m_size = other.m_size;
+        m_capacity = other.m_capacity;
+        m_data = new T[m_capacity];
+
+        for(std::size_t i = 0; i < m_size; ++i){
+            m_data[i] = other.m_data[i];
+        }
+    }
+
+    // O(1)
+    Vector(Vector &&other){
+        m_size = other.m_size;
+        m_capacity = other.m_capacity;
+        m_data = other.m_data;
+
+        other.m_size = 0;
+        other.m_capacity = 0;
+        other.m_data = nullptr;
+    }
+
     ~Vector() {
         delete []m_data;
+    }
+
+    // O(n)
+    Vector& operator=(const Vector &other){
+        if (this != &other) {
+            clear();
+            m_size = other.m_size;
+            m_capacity = other.m_capacity;
+            m_data = new T[m_capacity];
+
+            for(std::size_t i = 0; i < m_size; ++i){
+                m_data[i] = other.m_data[i];
+            }
+        }
+        return *this;
+    }
+
+    // O(1)
+    Vector& operator=(Vector &&other){
+        if (this != &other) {
+            clear();
+            m_size = other.m_size;
+            m_capacity = other.m_capacity;
+            m_data = other.m_data;
+
+            other.m_size = 0;
+            other.m_capacity = 0;
+            other.m_data = nullptr;
+        }
+        return *this;
     }
 
     constexpr void clear(){
@@ -41,8 +95,6 @@ public:
             for(std::size_t i = 0; i < m_size; i++){
                 newData[i] = m_data[i];
             }
-
-
             delete []m_data;
             m_data = newData;
         }
@@ -94,14 +146,37 @@ void performarceTest(const std::size_t size){
     std::println("Total (ms) {}", time);
 }
 
+Vector<int> readDatabase(){
+    Vector<int> vec;
+    for(std::size_t i{0}; i < 1'000'000; ++i){
+        vec.push_back(i);
+    }
+    return vec;
+}
+
 int main()
 {
+    Vector<int> vec;
+    vec = readDatabase();
+
+    Vector<int> vec2(std::move(vec));
+    print(vec2);
+
+    vec.push_back(1);
+
+    {
+        Vector<int> vec2;
+        vec2 = vec;
+        std::println("vec2[0]: {}", vec[0]);
+    }
+
+    std::println("vec[0]: {}", vec[0]);
+
     std::println("Minha versão");
     performarceTest<Vector<int>>(1000000);
     std::println("Biblioteca std::Vector");
     performarceTest<std::vector<int>>(1000000);
 
-    Vector<int> vec;
 
     std::println("Size: {}", vec.size());
     std::println("Empty: {}", vec.empty());
