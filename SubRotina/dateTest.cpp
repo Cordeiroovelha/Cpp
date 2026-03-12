@@ -12,7 +12,7 @@ int main()
     dt1.changeDate(1, 1, 2000);
     dt1.printDate();
 
-    //função de reconhecimento de ano bisexto
+    função de reconhecimento de ano bisexto
     if (dt1.isLeapYear())
         std::println("This is a leap year!");
     else
