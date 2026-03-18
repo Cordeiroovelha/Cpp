@@ -1,10 +1,22 @@
 #include <print>
 #include <chrono>
-#include<vector>
+#include <vector>
 
 using namespace std::chrono;
 
-template<typename T>
+template <typename T>
+concept CopyOrMoveAssignable = std::is_copy_assignable<T>::value ||
+                               std::is_move_assignable<T>::value;
+
+template <typename T>
+concept CopyOrMoveConstructible = std::is_copy_constructible<T>::value ||
+                                  std::is_move_constructible<T>::value;
+
+template <typename T>
+concept CopyOrMoveConstructibleAssignable = CopyOrMoveAssignable<T> &&
+                                            CopyOrMoveConstructible<T>;
+
+template<CopyOrMoveAssignable T>
 class Vector {
 public:
     Vector() = default;
@@ -69,6 +81,7 @@ public:
         delete []m_data;
         m_data = nullptr;
         m_size = 0;
+        m_capacity = 0;
     }
 
     constexpr void resize(const std::size_t sz){
@@ -83,6 +96,7 @@ public:
         delete []m_data;
         m_data = newData;
         m_size = sz;
+        m_capacity = 0;
 
     }
 
@@ -93,13 +107,36 @@ public:
             auto newData = new T[m_capacity];
 
             for(std::size_t i = 0; i < m_size; i++){
-                newData[i] = m_data[i];
+                if constexpr (std::is_move_constructible<T>())
+                    newData[i] = std::move(m_data[i]);
+                else
+                    newData[i] = m_data[i];
             }
             delete []m_data;
             m_data = newData;
         }
 
         m_data[m_size] = value;
+        ++m_size;
+    }
+
+    constexpr void push_back(const T&& value){
+        if(m_size == m_capacity){
+            m_capacity = m_size > 0? m_size*2 : 2;
+
+            auto newData = new T[m_capacity];
+
+            for(std::size_t i = 0; i < m_size; i++){
+                if constexpr (std::is_move_constructible<T>())
+                    newData[i] = std::move(m_data[i]);
+                else
+                    newData[i] = m_data[i];
+            }
+            delete []m_data;
+            m_data = newData;
+        }
+
+        m_data[m_size] = std::move(value);
         ++m_size;
     }
 
@@ -136,10 +173,11 @@ void print(const VecType &vec){
 template<typename VecType>
 void performarceTest(const std::size_t size){
     VecType vec;
+    static const std::string str(4 * 1024, 'a');
     const auto start = high_resolution_clock::now();
 
     for(std::size_t i{0}; i < size; ++i)
-        vec.push_back(i);
+        vec.push_back(str);
 
     const auto end = high_resolution_clock::now();
     const auto time = duration_cast<milliseconds>(end - start).count();
@@ -156,8 +194,17 @@ Vector<int> readDatabase(){
 
 int main()
 {
-    Vector<int> vec;
-    vec = readDatabase();
+    //Vector<int> vec;
+    //vec = readDatabase();
+
+    performarceTest<Vector<std::string>>(1'000);
+    performarceTest<std::vector<std::string>>(1'000);
+
+    /*
+    std::println("Minha versão");
+    performarceTest<Vector<int>>(1000000);
+    std::println("Biblioteca std::Vector");
+    performarceTest<std::vector<int>>(1000000);
 
     Vector<int> vec2(std::move(vec));
     print(vec2);
@@ -171,12 +218,6 @@ int main()
     }
 
     std::println("vec[0]: {}", vec[0]);
-
-    std::println("Minha versão");
-    performarceTest<Vector<int>>(1000000);
-    std::println("Biblioteca std::Vector");
-    performarceTest<std::vector<int>>(1000000);
-
 
     std::println("Size: {}", vec.size());
     std::println("Empty: {}", vec.empty());
@@ -201,6 +242,6 @@ int main()
     vec.clear();
     std::println("Size: {}", vec.size());
     std::println("Empty: {}", vec.empty());
-
+*/
     return 0;
 }
