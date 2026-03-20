@@ -1,36 +1,42 @@
-#include <iostream>
-#include <algorithm>
-using namespace std;
+// BubbleSort é um organizador de dados que compara o elemento atual com o proximo
+// seu tempo é O(n²)
 
-void BubbleSort(int arr[], int n){
-	bool Swapped;
-	for(int i = 0; i < n - 1; i++){
-		Swapped = 0;
-		for(int j = 0; j < n-1; j++){
-			if (arr[j] < arr[j - 1]){
-				swap(arr[j], arr[j - 1]);
-				Swapped = true;
+#include <iostream>
+
+const int MaxLeght = 10;
+int arr[MaxLeght] = {64,25,12,22,11,90,33,47,5,78};
+int cicles{0};
+
+void bubbleSort(){
+	bool swaped;
+	
+	for (int i = 0; i < MaxLeght - 1; i++){
+		swaped = false;
+		for(int j{0}; j < MaxLeght - i - 1 ; j++){
+			if(arr[j] > arr[j + 1]){
+				std::swap(arr[j], arr[j + 1]);
+				swaped = true;
 			}
+			cicles++;
 		}
-		if (!Swapped)
-			break;
+		if(!swaped) break;
 	}
 }
 
-void printArray(int arr[], int n){
-	for(int i = 0; i < n - 1; i++){
-		cout << arr[i] << " | ";
+void DisplayArray(){
+	for(int i = 0; i < MaxLeght; i++){
+		std::cout << '|' << arr[i] << '|' << '\t';
 	}
 }
 
 int main(void){
-	int n = 10;	
-	int arr[] = {8,6,5,9,7,4,3,2,1};
-	
-	printArray(arr, n);
-	cout << endl << endl;
-	BubbleSort(arr, n);
-	printArray(arr, n);
-	
-	return 0;
+	std::cout << "Desordenado: " << std::endl;
+	DisplayArray();
+	bubbleSort();
+	std::cout << "\nOrdenado: " << std::endl;
+	DisplayArray();
+	std::cout << "\nQuantidade de buscas: " << cicles;
+    return 0; 
 }
+
+// tempo: 0.0124
