@@ -25,7 +25,7 @@ void SelectionSort(){
 
 void DisplayArray(){
 	for(int i = 0; i < n; i++){
-		std::cout << '|' << arr[i] << '|' << '\t';
+		cout << arr[i] << '\t';
 	}
 }
 
