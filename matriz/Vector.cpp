@@ -200,12 +200,13 @@ int main()
     performarceTest<Vector<std::string>>(1'000);
     performarceTest<std::vector<std::string>>(1'000);
 
-    /*
+    
     std::println("Minha versão");
     performarceTest<Vector<int>>(1000000);
     std::println("Biblioteca std::Vector");
     performarceTest<std::vector<int>>(1000000);
 
+    /*
     Vector<int> vec2(std::move(vec));
     print(vec2);
 
