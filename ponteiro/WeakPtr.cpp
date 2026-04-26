@@ -1,3 +1,7 @@
+// weak ptr é um ponteiro que não possui a propriedade de um recurso
+// ou seja, ele não é responsável por liberar o recurso
+// Ele é útil para evitar ciclos de referência
+
 #include <print>
 #include <memory>
 #include <vector>

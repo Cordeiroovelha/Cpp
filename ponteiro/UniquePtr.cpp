@@ -1,3 +1,7 @@
+// unique ptr é um tipo de ponteiro mais inteligente
+// Ele é exclusivo, ou seja, não pode ser copiado, apenas movido
+// Ele é útil para garantir que um recurso seja liberado quando não for mais necessário
+
 #include <print>
 #include <memory>
 

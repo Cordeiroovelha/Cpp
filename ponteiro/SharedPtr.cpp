@@ -1,3 +1,7 @@
+// shared ptr é um ponteiro parecido com o unique ptr
+// sua diferença é que ele é compartilhado, ou seja, pode ser copiado e tem um contador de referências
+// Ele é útil para compartilhar um recurso entre várias partes do código, garantindo que ele seja liberedo
+
 #include <print>
 #include <memory>
 
