@@ -37,6 +37,7 @@ void demo_static_cast() {
     int *pInt = static_cast<int*>(vpInt);
 
     [[maybe_unused]]int myEnum0 = static_cast<int>(MyEnum::ENUM_0);
+    std::println("{}", a);
 
     delete base;
     delete der;
@@ -45,6 +46,6 @@ void demo_static_cast() {
 
 int main()
 {
-    cout << "static_cast" << endl;
+    std::println("static_cast");
     return 0;
 }
