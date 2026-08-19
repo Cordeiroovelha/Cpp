@@ -19,7 +19,7 @@ int main(void){
     int idade; // int = numero inteiro
     double altura; // double = numero com decimal
     char id; // char = caracter unico
-    string nome; // string = palavra ou frase
+    std::string nome; // string = palavra ou frase
 
 
 // saida de dados:
