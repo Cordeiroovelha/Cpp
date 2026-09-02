@@ -3,23 +3,26 @@
 // é importante dividir a responsabilidades em classes distinta para melhor manutenção do codigo
 #include <print>
 #include <fstream>
+#include <assert.h>
 
 // colocando a responsabilidade em salvar o arquivo em uma classe diferente
 // a classe Report não precisa mais ser responsavel por duas ações
 // tornando o codigo mais limpo e facil de fazer qualquer manutenção futura
 class FileManager {
 public:
-    static void saveFile(const std::string &fileName, const std::string &data){
+    static bool saveFile(const std::string &fileName, const std::string &data){
         std::ofstream file(fileName);
         if (file.is_open()){
             file << data;
             file.close();
             std::println("Report saved to '{}'", fileName);
-            return;
+            return true;
         }
 
         std::println("Failed to open file '{}'", fileName);
+        return false;
     }
+
 };
 
 // separando a responsabilidade de gerar e salvar um relatorio
@@ -27,15 +30,15 @@ public:
 class Report{
 public:
     void generate(const std::string &title, const std::string &body,
-                             const std::string &footer) {
+                  const std::string &footer) {
         std::println("Generating report data...");
         m_data = std::format("----- {} ----- \n\n{}\n\n ----- {} -----", title, body, footer);
     }
-
+    
     std::string getData() const { return m_data; }
-
+    
 private:
-
+    
     std::string m_data;
 };
 
@@ -49,10 +52,10 @@ void Report_test(){
     const auto title = "Monthly Sales Report";
     const auto body = "This is the body of the report, datailing sales figures for the mounth.";
     const auto footer = "End of Report";
-
+    
     Report report;
     report.generate(title, body, footer);
-
+    
     assert(report.getData().contains(title));
     assert(report.getData().contains(body));
     assert(report.getData().contains(footer));
@@ -61,12 +64,12 @@ void Report_test(){
 int main(void){
     Report_test();
     FileManager_test();
-
+    
     Report report;
     report.generate("Monthly Sales Report",
-                           "This is the body of the report, datailing sales figures for the mounth.",
-                           "End of Report");
-
+                    "This is the body of the report, datailing sales figures for the mounth.",
+                    "End of Report");
+    
     FileManager::saveFile("other.txt", report.getData());
     
     return 0;
