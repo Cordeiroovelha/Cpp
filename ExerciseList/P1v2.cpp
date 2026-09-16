@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(void){
-    int altura{0}, largura{0}, total{0}, linha{0}, coluna{0};
+    int altura{0}, largura{0}, total{0}, linha{0}, coluna{0}, tomatesPerdidos{0};
 
     // vetores de deslocamento ou delta arrays
     // servem para organizar cordenadas em celulas vizinhas (cima, baixo, esquerda e direita)
@@ -32,7 +32,7 @@ int main(void){
             linha = (i - 1) / largura;
             coluna = (i - 1) % largura;
             campo[linha][coluna] = 'T';
-        }
+        } else tomatesPerdidos++;
     }
 
     // insere as armadilhas
@@ -61,6 +61,7 @@ int main(void){
         }
         cout << endl << endl;
     }
+    cout << "\nTotal de tomates perdidos: " << tomatesPerdidos;
 
     return 0;
 }
